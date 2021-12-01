@@ -22,4 +22,4 @@ lines.forEach((l) => {
   }
 });
 
-console.log(increaseCount);
+console.log(increaseCount); // 1713

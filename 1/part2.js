@@ -24,4 +24,4 @@ for (let i = 0; i < lines.length; i++) {
   }
 }
 
-console.log(increaseCount);
+console.log(increaseCount); // 1734
