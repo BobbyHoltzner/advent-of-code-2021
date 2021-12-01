@@ -8,6 +8,7 @@ let current = null;
 let increaseCount = 0;
 let decreaseCount = 0;
 
+// Part 1
 lines.forEach((l) => {
   l = parseInt(l);
   if (current === null) {
@@ -22,4 +23,3 @@ lines.forEach((l) => {
 });
 
 console.log(increaseCount);
-console.log(decreaseCount);
