@@ -1,4 +1,4 @@
-// Run this from the /2 directory
+// Run this from the /2 directory because paths are relative
 const file = require("../loadFile");
 const lines = file.toString().split("\n");
 
