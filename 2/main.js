@@ -1,5 +1,5 @@
-const fs = require("fs");
-const file = fs.readFileSync("./dataset.txt");
+// Run this from the /2 directory
+const file = require("../loadFile");
 const lines = file.toString().split("\n");
 
 const determineDirection = (instruction) => {
@@ -45,7 +45,9 @@ const part2 = (instructions) => {
     const { direction, steps } = determineDirection(instruction);
     switch (direction) {
       case "forward":
+        // Always add the steps to the horizontal position
         position.horizontal += steps;
+        // Only update the depth if the aim position is not 0
         if (position.aim != 0) {
           position.depth += position.aim * steps;
         }
