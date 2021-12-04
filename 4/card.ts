@@ -1,5 +1,11 @@
 import Spot from "./spot";
 
+/**
+ *  The Card class holds all of the data for a particular bingo card.
+ *  It is made up of an ID (index) and a set of Spots
+ *  Spots hold the positional information and value of a particular spot on the card
+ */
+
 export default class Card {
   _spots: Spot[] = [];
   _id: number = null;

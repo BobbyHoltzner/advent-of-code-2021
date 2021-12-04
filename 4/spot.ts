@@ -1,3 +1,8 @@
+/**
+ *  The Spot class holds all of the data for a spot on a bingo card
+ *  It holds the row, column, value, and boolean if it's marked or not
+ */
+
 export default class Spot {
   _marked: boolean = false;
   _value: string = null;
