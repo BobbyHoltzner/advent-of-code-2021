@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@types/node": "^16.11.11"
+  },
+  "scripts": {
+    "start": "node ./main.js",
+    "build": "tsc ./*.ts --outDir ./"
+  }
+}
