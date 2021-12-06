@@ -1,89 +1,102 @@
 const file = require("../loadFile");
-import Grid from "./grid";
 
 const lines = file
   .toString()
   .split("\n")
   .map((l) => l.replace("->", ","));
 
-let board: Grid[] = [];
+const convertToKey = (x: number, y: number) => {
+  return `${x}-${y}`;
+};
 
-const addCard = (x: string, y: string) => {
-  const exists = board.find((g) => g.getX() === x && g.getY() === y);
-  if (exists) {
-    exists.setValue(exists.getValue() + 1);
+const convertFromKey = (key: string) => {
+  return key.split("-").map((v) => parseInt(v));
+};
+
+let map: Object = {};
+
+const addToMap = (x: number, y: number) => {
+  const key = convertToKey(x, y);
+  const found = map[key];
+  if (found) {
+    map[key] += 1;
   } else {
-    const grid = new Grid(x, y);
-    grid.setValue(1);
-    board.push(grid);
+    map[key] = 1;
   }
 };
 
 const part1 = () => {
   lines.forEach((line) => {
-    const [x1, y1, x2, y2] = line.split(",").map((v) => v.trim());
+    const [x1, y1, x2, y2] = line
+      .split(",")
+      .map((v) => v.trim())
+      .map((v) => parseInt(v));
+
     let difference = 0;
     if (x1 === x2 || y1 === y2) {
       if (x1 !== x2) {
-        difference = Math.abs(parseInt(x2) - parseInt(x1));
-        const start = Math.min(parseInt(x1), parseInt(x2));
+        difference = Math.abs(x2 - x1);
+        const start = Math.min(x1, x2);
         for (let i = 0; i <= difference; i++) {
-          addCard((start + i).toString(), y1);
+          addToMap(start + i, y1);
         }
       } else if (y1 !== y2) {
-        difference = Math.abs(parseInt(y2) - parseInt(y1));
-        const start = Math.min(parseInt(y1), parseInt(y2));
+        difference = Math.abs(y2 - y1);
+        const start = Math.min(y1, y2);
         for (let i = 0; i <= difference; i++) {
-          addCard(x1, (start + i).toString());
+          addToMap(x1, start + i);
         }
       }
     }
   });
-  const gridsWithGreaterThanOne = board.filter((grid) => grid.getValue() > 1);
-
-  return gridsWithGreaterThanOne.length;
+  return Object.keys(map)
+    .map((key) => map[key])
+    .filter((v) => v > 1).length;
 };
 
 const part2 = () => {
-  board = [];
+  map = {};
   lines.forEach((line) => {
-    const [x1, y1, x2, y2] = line.split(",").map((v) => v.trim());
+    const [x1, y1, x2, y2] = line
+      .split(",")
+      .map((v) => v.trim())
+      .map((v) => parseInt(v));
     let difference = 0;
     if (x1 === x2 || y1 === y2) {
       if (x1 !== x2) {
-        difference = Math.abs(parseInt(x2) - parseInt(x1));
-        const start = Math.min(parseInt(x1), parseInt(x2));
+        difference = Math.abs(x2 - x1);
+        const start = Math.min(x1, x2);
         for (let i = 0; i <= difference; i++) {
-          addCard((start + i).toString(), y1);
+          addToMap(start + i, y1);
         }
       }
       if (y1 !== y2) {
-        difference = Math.abs(parseInt(y2) - parseInt(y1));
-        const start = Math.min(parseInt(y1), parseInt(y2));
+        difference = Math.abs(y2 - y1);
+        const start = Math.min(y1, y2);
         for (let i = 0; i <= difference; i++) {
-          addCard(x1, (start + i).toString());
+          addToMap(x1, start + i);
         }
       }
     } else {
       difference = Math.abs(parseInt(y2) - parseInt(y1));
       let negativeX = false;
-      if (parseInt(x2) < parseInt(x1)) {
+      if (x2 < x1) {
         negativeX = true;
       }
       let negativeY = false;
-      if (parseInt(y2) < parseInt(y1)) {
+      if (y2 < y1) {
         negativeY = true;
       }
       for (let i = 0; i <= difference; i++) {
-        const newX = negativeX ? parseInt(x1) - i : parseInt(x1) + i;
-        const newY = negativeY ? parseInt(y1) - i : parseInt(y1) + i;
-        addCard(newX.toString(), newY.toString());
+        const newX = negativeX ? x1 - i : x1 + i;
+        const newY = negativeY ? y1 - i : y1 + i;
+        addToMap(newX, newY);
       }
     }
   });
-  const gridsWithGreaterThanOne = board.filter((grid) => grid.getValue() > 1);
-
-  return gridsWithGreaterThanOne.length;
+  return Object.keys(map)
+    .map((key) => map[key])
+    .filter((v) => v > 1).length;
 };
 
 let now = Date.now();
