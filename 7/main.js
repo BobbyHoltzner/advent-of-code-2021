@@ -5,13 +5,14 @@ var data = file
     .map(function (v) { return parseInt(v); });
 var generateMap = function () {
     var map = {};
-    // Make the dataset unique values
-    var set = new Set(data);
-    Array.from(set).forEach(function (v) {
-        map[v.toString()] = 0;
-    });
+    // We know we can use any number from 0 to the max
+    var max = Math.max.apply(Math, data);
+    for (var i = 0; i <= max; i++) {
+        map[i.toString()] = 0;
+    }
     return map;
 };
+// Get the cost per each step 1 = 1, 2 = 2, etc.
 var getCostForSteps = function (steps) {
     var cost = 0;
     for (var i = 1; i <= steps; i++) {
@@ -19,7 +20,7 @@ var getCostForSteps = function (steps) {
     }
     return cost;
 };
-var partOne = function (cost_per_step) {
+var getOptimalFuel = function (cost_per_step) {
     var map = generateMap();
     Object.keys(map).forEach(function (key) {
         var total = 0;
@@ -38,10 +39,9 @@ var partOne = function (cost_per_step) {
         map[key] = total;
     });
     var mapValues = Object.values(map);
-    //   console.log(map);
     return Math.min.apply(Math, mapValues);
 };
-var optimalFuel = partOne(1); //37
-console.log(optimalFuel);
-var optimalFuelPart2 = partOne();
-console.log(optimalFuelPart2);
+var part1 = getOptimalFuel(1); //352254
+console.log(part1);
+var part2 = getOptimalFuel(); //99053143
+console.log(part2);
