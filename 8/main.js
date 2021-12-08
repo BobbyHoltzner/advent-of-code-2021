@@ -44,6 +44,9 @@ var getSegmentCounts = function (display) {
     });
     return map;
 };
+var getDisplay = function (line) {
+    console.log(line);
+};
 var getKeyByValue = function (object, value) {
     return Object.keys(object).find(function (key) { return object[key] === value; });
 };
@@ -71,11 +74,11 @@ var getValueForString = function (display, str) {
         .filter(function (key) { return display[key].length === length; })
         .map(function (key) { return ({ key: key, value: display[key] }); });
     var stringSplit = str.split("");
-    console.log(str);
+    // console.log(str);
     var found = possibleValuesBasedOnLength.find(function (p) {
         return stringSplit.every(function (v) { return p.value.includes(v); });
     });
-    console.log("Found: ", found);
+    // console.log("Found: ", found);
     return found;
 };
 var partOne = function () {
@@ -98,6 +101,10 @@ var partTwo = function () {
     var segmentCounts = getSegmentCounts(displayPart2);
     var uniques = getUniques(segmentCounts);
     var instructions = [];
+    var displayInstructions = dataset
+        .map(function (d) { return d.split("|")[0].trim(); })
+        .map(function (v) { return v.split(" "); });
+    console.log(displayInstructions);
     dataset
         .map(function (d) { return d.split("|")[1].trim(); })
         .map(function (v) { return v.split(" "); })
@@ -105,6 +112,7 @@ var partTwo = function () {
     var values = {};
     instructions.forEach(function (instruction, index) {
         // Create a display here...
+        // const display = getDisplay(instruction);
         instruction.forEach(function (single) {
             if (!values[index]) {
                 values[index] = [];
@@ -122,7 +130,7 @@ var partTwo = function () {
         });
     });
     var total = 0;
-    console.log(values["3"]);
+    // console.log(values["3"]);
     Object.keys(values).forEach(function (v) {
         var value = values[v].toString().replace(/,/g, "");
         total += parseInt(value);
@@ -132,8 +140,8 @@ var partTwo = function () {
 var count = partOne();
 console.log(count);
 var total = partTwo();
-console.log(total);
+// console.log(total);
 var checker = function (arr, target) { return target.every(function (v) { return arr.includes(v); }); };
 var test = ["d", "e", "a", "f", "b", "c"];
 var val = ["e", "f", "a", "b", "c", "d"];
-console.log(checker(test, val));
+// console.log(checker(test, val));

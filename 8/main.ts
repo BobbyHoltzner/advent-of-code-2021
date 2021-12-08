@@ -51,6 +51,10 @@ const getSegmentCounts = (display) => {
   return map;
 };
 
+const getDisplay = (line: string) => {
+  console.log(line);
+};
+
 const getKeyByValue = (object, value) => {
   return Object.keys(object).find((key) => object[key] === value);
 };
@@ -80,11 +84,11 @@ const getValueForString = (display: Object, str: string) => {
     .filter((key) => display[key].length === length)
     .map((key) => ({ key, value: display[key] }));
   const stringSplit = str.split("");
-  console.log(str);
+  // console.log(str);
   const found = possibleValuesBasedOnLength.find((p) => {
     return stringSplit.every((v) => p.value.includes(v));
   });
-  console.log("Found: ", found);
+  // console.log("Found: ", found);
   return found;
 };
 
@@ -110,6 +114,11 @@ const partTwo = () => {
   const segmentCounts = getSegmentCounts(displayPart2);
   let uniques = getUniques(segmentCounts);
   const instructions = [];
+  const displayInstructions = dataset
+    .map((d: string) => d.split("|")[0].trim())
+    .map((v) => v.split(" "));
+
+  console.log(displayInstructions);
   dataset
     .map((d: string) => d.split("|")[1].trim())
     .map((v) => v.split(" "))
@@ -118,6 +127,7 @@ const partTwo = () => {
   const values = {};
   instructions.forEach((instruction, index) => {
     // Create a display here...
+    // const display = getDisplay(instruction);
     instruction.forEach((single) => {
       if (!values[index]) {
         values[index] = [];
@@ -134,7 +144,7 @@ const partTwo = () => {
     });
   });
   let total = 0;
-  console.log(values["3"]);
+  // console.log(values["3"]);
   Object.keys(values).forEach((v) => {
     const value = values[v].toString().replace(/,/g, "");
     total += parseInt(value);
@@ -146,10 +156,10 @@ const count = partOne();
 console.log(count);
 
 const total = partTwo();
-console.log(total);
+// console.log(total);
 
 let checker = (arr, target) => target.every((v) => arr.includes(v));
 const test = ["d", "e", "a", "f", "b", "c"];
 const val = ["e", "f", "a", "b", "c", "d"];
 
-console.log(checker(test, val));
+// console.log(checker(test, val));
